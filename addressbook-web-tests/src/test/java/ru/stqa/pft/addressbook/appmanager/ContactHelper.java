@@ -27,19 +27,27 @@ public class ContactHelper extends HelperBase {
     }
 
     public void selectContact() {
-        ;
+        wd.findElement(By.name("selected[]")).click();
     }
 
     public void initModifyContact() {
-        ;
+        wd.findElement(By.xpath("//img[@alt='Edit']")).click();
     }
 
     public void submitModifyContact() {
-        ;
+        wd.findElement(By.name("update")).click();
+    }
+
+    public void submitDeleteContact() {
+        wd.switchTo().alert().accept();
     }
 
     public void deleteSelectedContacts() {
-        ;
+        wd.findElement(By.xpath("//input[@value='Delete']")).click();
+    }
+
+    public void goToContactsPage() {
+        wd.switchTo().alert().accept();
     }
 
 }
