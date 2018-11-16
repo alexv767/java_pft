@@ -9,7 +9,6 @@ public class GroupData {
         this.name = name;
         this.header = header;
         this.footer = footer;
-
     }
 
     public String getName() { return name; }
