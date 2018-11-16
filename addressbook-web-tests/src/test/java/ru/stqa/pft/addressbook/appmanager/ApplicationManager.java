@@ -5,7 +5,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
 import java.util.concurrent.TimeUnit;
@@ -31,10 +30,10 @@ public class ApplicationManager {
             wd = new ChromeDriver();
         }
 
-        wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wd.get("http://localhost/addressbook/");
         groupHelper = new GroupHelper(wd);
-        contactHelper = new ContactHelper(wd);
+        contactHelper = new ContactHelper(wd, this);
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
         sessionHelper.login("admin", "secret");
