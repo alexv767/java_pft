@@ -3,11 +3,13 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
     ApplicationManager app;
@@ -51,8 +53,9 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void selectContact() {
-        wd.findElement(By.name("selected[]")).click();
+    public void selectContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
+//        wd.findElement(By.name("selected[]")).click();
     }
 
     public void initModifyContact() {
@@ -81,4 +84,35 @@ public class ContactHelper extends HelperBase {
         fillContactForm(contact, true);
         submitCreateContact();
     }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+//        System.out.println("*******************************************************");
+
+        WebElement tabl = wd.findElement(By.id("maintable"));
+        if (isElementPresentE(tabl, By.name("entry"))) {
+            List<WebElement> elements = tabl.findElements(By.name("entry"));
+            if(elements.size() > 0){
+                for (WebElement element : elements) {
+                    if (isElementPresentE(element, By.cssSelector("td"))) {
+                        List<WebElement> cont = element.findElements(By.cssSelector("td"));
+//            if (cont.size() > 0) {
+                        String lastName = cont.get(1).getText();
+                        String firstName = cont.get(2).getText();
+                        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+                        // compare - first and last names only:
+                        ContactData contact = new ContactData(id, lastName, firstName, null, null, null, null);
+                        contacts.add(contact);
+//            }
+
+                    }
+                }
+
+            }
+        }
+//        System.out.println("************0000000000000000000000********************");
+        return contacts;
+    }
+
+
 }

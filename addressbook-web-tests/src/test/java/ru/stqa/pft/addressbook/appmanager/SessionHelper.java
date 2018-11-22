@@ -3,6 +3,8 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+
 public class SessionHelper extends HelperBase {
 
     public SessionHelper(WebDriver wd) {
@@ -16,6 +18,7 @@ public class SessionHelper extends HelperBase {
     }
 
     public void logout() {
+
         wd.findElement(By.linkText("Logout"));
         click(By.linkText("Logout"));
     }
