@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -20,17 +20,17 @@ public class ContactHelper extends HelperBase {
         this.app = app;
     }
 
-    public void fillContactForm(ContactData contactData, boolean newGroup) {
+    public void fillContactForm(ContactData contact, boolean newGroup) {
 
-        if (contactData.getGroup() != null) {
+        if (contact.getGroup() != null) {
             if (newGroup){
                 try {
-                    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+                    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
                 } catch (NoSuchElementException ex) {
                     ;
-//                    app.getNavigationHelper().goToGroupPage();
-//                    app.getGroupHelper().createGroup(new GroupData(contactData.getGroup(), null, null));
-//                    app.getNavigationHelper().goToContactsPage();
+//                    app.goTo().groupPage();
+//                    app.group().create(new GroupData(contactData.getGroup(), null, null));
+//                    app.goTo().contactsPage();
 //                    initModifyContact();
 //                    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
                 }
@@ -38,11 +38,11 @@ public class ContactHelper extends HelperBase {
                 Assert.assertFalse(isElementPresent(By.name("new_group")));
             }
         }
-        type(By.name("firstname"), contactData.getFirstName());
-        type(By.name("lastname"), contactData.getLastName());
-        type(By.name("address"), contactData.getAddress());
-        type(By.name("home"), contactData.getHomePhone());
-        type(By.name("email"), contactData.getEmail());
+        type(By.name("firstname"), contact.getFirstName());
+        type(By.name("lastname"), contact.getLastName());
+        type(By.name("address"), contact.getAddress());
+        type(By.name("home"), contact.getHomePhone());
+        type(By.name("email"), contact.getEmail());
     }
 
     public void initCreateContact() {
@@ -51,16 +51,12 @@ public class ContactHelper extends HelperBase {
 
     public void submitCreateContact() {
         click(By.xpath("(//input[@name='submit'])[2]"));
+        wd.findElements(By.cssSelector("div.msgbox")); // wait for message
     }
 
-    public void selectContact(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
-//        wd.findElement(By.name("selected[]")).click();
-    }
-
-    public void initModifyContact(int index) {
-//        wd.findElement(By.xpath("//img[@alt='Edit']")).click();
-        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    public void initModifyContactById(int id) {
+//        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+        wd.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();
     }
 
     public void submitModifyContact() {
@@ -69,26 +65,84 @@ public class ContactHelper extends HelperBase {
 
     public void submitDeleteContact() {
         wd.switchTo().alert().accept();
+        wd.findElements(By.cssSelector("div.msgbox")); // wait for message
     }
 
     public void deleteSelectedContacts() {
         wd.findElement(By.xpath("//input[@value='Delete']")).click();
     }
 
-    public boolean isThereAnyContact() {
-        return isElementPresent(By.name("selected[]"));
-    }
+//    public boolean isThereAnyContact() {
+//        return isElementPresent(By.name("selected[]"));
+//    }
 
-    public void createContact(ContactData contact) {
+    public void create(ContactData contact) {
         initCreateContact();
         fillContactForm(contact, true);
         submitCreateContact();
     }
 
-    public List<ContactData> getContactList() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
-//        System.out.println("*******************************************************");
+    public void modify(ContactData contact) {
+        initModifyContactById(contact.getId());
+        fillContactForm(contact, false);
+        submitModifyContact();
+        app.goTo().contactsPage();
+    }
 
+    public void delete(ContactData contact) {
+        selectContactById(contact.getId());
+        deleteSelectedContacts();
+        submitDeleteContact();
+        app.goTo().contactsPage();
+    }
+
+    public void selectContactById(int id) {
+            wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+        //    int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+    }
+
+//    public List<ContactData> list() {
+//        List<ContactData> contacts = new ArrayList<ContactData>();
+////        System.out.println("*******************************************************");
+//
+//        WebElement tabl = wd.findElement(By.id("maintable"));
+//        if (isElementPresentE(tabl, By.name("entry"))) {
+//            List<WebElement> elements = tabl.findElements(By.name("entry"));
+//            if(elements.size() > 0){
+//                for (WebElement element : elements) {
+//                    if (isElementPresentE(element, By.cssSelector("td"))) {
+//                        List<WebElement> cont = element.findElements(By.cssSelector("td"));
+////            if (cont.size() > 0) {
+//                        String lastName = cont.get(1).getText();
+//                        String firstName = cont.get(2).getText();
+//                        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+//                        // compare - first and last names only:
+//                        ContactData contact = new ContactData(id, lastName, firstName, null, null, null, null);
+//                        contacts.add(contact);
+////            }
+//
+//                    }
+//                }
+//
+//            }
+//        }
+////        System.out.println("************0000000000000000000000********************");
+//        return contacts;
+//    }
+
+//    public Groups all() {
+//        Groups groups = new Groups();
+//        List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+//        for(WebElement element : elements){
+//            String name = element.getText();
+//            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+//            groups.add(new GroupData().withId(id).withName(name));
+//        }
+//        return groups;
+//    }
+
+    public Contacts all() {
+        Contacts contacts = new Contacts();
         WebElement tabl = wd.findElement(By.id("maintable"));
         if (isElementPresentE(tabl, By.name("entry"))) {
             List<WebElement> elements = tabl.findElements(By.name("entry"));
@@ -96,31 +150,19 @@ public class ContactHelper extends HelperBase {
                 for (WebElement element : elements) {
                     if (isElementPresentE(element, By.cssSelector("td"))) {
                         List<WebElement> cont = element.findElements(By.cssSelector("td"));
-//            if (cont.size() > 0) {
                         String lastName = cont.get(1).getText();
                         String firstName = cont.get(2).getText();
                         int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
                         // compare - first and last names only:
-                        ContactData contact = new ContactData(id, lastName, firstName, null, null, null, null);
+                        ContactData contact = new ContactData().withId(id).withLastName(lastName)
+                                .withFirstName(firstName);
+//                        ContactData contact = new ContactData().withId(id, lastName, firstName, null, null, null, null);
                         contacts.add(contact);
-//            }
-
                     }
                 }
-
             }
         }
-//        System.out.println("************0000000000000000000000********************");
         return contacts;
     }
 
-
-    public int getModifiedContactIndex(int id, List<ContactData> before) {
-
-        for (int i=0; i < before.size(); i++) {
-            if (before.get(i).getId() == id)
-                return i;
-        }
-        return -1;
-    }
 }

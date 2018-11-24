@@ -1,43 +1,32 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-import java.util.List;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DeleteContactTests extends TestBase {
 
-    @Test
-    public void testDeleteContact() throws Exception {
-        app.getNavigationHelper().goToContactsPage();
-        if(! app.getContactHelper().isThereAnyContact()){
-            app.getContactHelper().createContact(new ContactData("test1", null, null, null, null, null));
-            app.getNavigationHelper().goToContactsPage();
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().contactsPage();
+        if(app.contact().all().size() == 0){
+            app.contact().create(new ContactData().withLastName("test1"));
+            app.goTo().contactsPage();
         }
-
-        List<ContactData> before = app.getContactHelper().getContactList();
-
-        app.getContactHelper().selectContact(before.size() - 1);
-        app.getContactHelper().deleteSelectedContacts();
-        app.getContactHelper().submitDeleteContact();
-        app.getNavigationHelper().goToContactsPage();
-
-//        if( isElementPresent(By.id("maintable"))) ;
-//        app.wait.until(presenceOfElementLocated(By.id("maintable")));
-//        app.wait.until(presenceOfElementLocated(By.name("logout")));
-
-        app.pause(5000);
-        List<ContactData> after = app.getContactHelper().getContactList();
-        Assert.assertEquals(after.size(),before.size() - 1);
-
-        before.remove(before.size() - 1);
-        Assert.assertEquals(after, before);
-
-
-
     }
+
+    @Test(enabled = true)
+    public void testDeleteContact() throws Exception {
+        Contacts before = app.contact().all();
+        ContactData deletedContact =  before.iterator().next();
+        app.contact().delete(deletedContact);
+        Contacts after = app.contact().all();
+        assertThat(after.size(), equalTo(before.size() - 1));
+        assertThat(after, equalTo(before.without(deletedContact)));
+    }
+
 }
