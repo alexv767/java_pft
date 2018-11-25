@@ -13,6 +13,9 @@ public class ContactData {
     private String allPhones;
     private String email;
     private String email2;
+    private String email3;
+    private String allEmails;
+    private String group;
 
     @Override
     public String toString() {
@@ -30,9 +33,6 @@ public class ContactData {
                 ", group='" + group + '\'' +
                 '}';
     }
-
-    private String email3;
-    private String group;
 
     public ContactData withId(int id) {
         this.id = id;
@@ -85,6 +85,11 @@ public class ContactData {
 
     public ContactData withEmail3(String email3) {
         this.email3 = email3;
+        return this;
+    }
+
+    public ContactData withAllEmails(String allEmails) {
+        this.allEmails = allEmails;
         return this;
     }
 
@@ -154,6 +159,10 @@ public class ContactData {
 
     public String getGroup() {
         return group;
+    }
+
+    public String getAllEmails() {
+        return allEmails;
     }
 
 }

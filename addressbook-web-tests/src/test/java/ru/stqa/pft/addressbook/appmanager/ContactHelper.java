@@ -107,11 +107,15 @@ public class ContactHelper extends HelperBase {
                         String lastName = cont.get(1).getText();
                         String firstName = cont.get(2).getText();
                         String allPhones = cont.get(5).getText();
+                        String address = cont.get(3).getText();
+                        String allEmails = cont.get(4).getText();
                         int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
                         // compare - first and last names only:
                         ContactData contact = new ContactData().withId(id)
                                 .withLastName(lastName).withFirstName(firstName)
-                                .withAllPhones(allPhones);
+                                .withAllPhones(allPhones)
+                                .withAddress(address)
+                                .withAllEmails(allEmails);
                         contacts.add(contact);
                     }
                 }
