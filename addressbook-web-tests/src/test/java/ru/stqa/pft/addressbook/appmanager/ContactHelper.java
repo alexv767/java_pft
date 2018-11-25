@@ -55,7 +55,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void initModifyContactById(int id) {
-//        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
         wd.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();
     }
 
@@ -71,10 +70,6 @@ public class ContactHelper extends HelperBase {
     public void deleteSelectedContacts() {
         wd.findElement(By.xpath("//input[@value='Delete']")).click();
     }
-
-//    public boolean isThereAnyContact() {
-//        return isElementPresent(By.name("selected[]"));
-//    }
 
     public void create(ContactData contact) {
         initCreateContact();
@@ -98,48 +93,7 @@ public class ContactHelper extends HelperBase {
 
     public void selectContactById(int id) {
             wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
-        //    int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
     }
-
-//    public List<ContactData> list() {
-//        List<ContactData> contacts = new ArrayList<ContactData>();
-////        System.out.println("*******************************************************");
-//
-//        WebElement tabl = wd.findElement(By.id("maintable"));
-//        if (isElementPresentE(tabl, By.name("entry"))) {
-//            List<WebElement> elements = tabl.findElements(By.name("entry"));
-//            if(elements.size() > 0){
-//                for (WebElement element : elements) {
-//                    if (isElementPresentE(element, By.cssSelector("td"))) {
-//                        List<WebElement> cont = element.findElements(By.cssSelector("td"));
-////            if (cont.size() > 0) {
-//                        String lastName = cont.get(1).getText();
-//                        String firstName = cont.get(2).getText();
-//                        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-//                        // compare - first and last names only:
-//                        ContactData contact = new ContactData(id, lastName, firstName, null, null, null, null);
-//                        contacts.add(contact);
-////            }
-//
-//                    }
-//                }
-//
-//            }
-//        }
-////        System.out.println("************0000000000000000000000********************");
-//        return contacts;
-//    }
-
-//    public Groups all() {
-//        Groups groups = new Groups();
-//        List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
-//        for(WebElement element : elements){
-//            String name = element.getText();
-//            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-//            groups.add(new GroupData().withId(id).withName(name));
-//        }
-//        return groups;
-//    }
 
     public Contacts all() {
         Contacts contacts = new Contacts();
@@ -152,11 +106,12 @@ public class ContactHelper extends HelperBase {
                         List<WebElement> cont = element.findElements(By.cssSelector("td"));
                         String lastName = cont.get(1).getText();
                         String firstName = cont.get(2).getText();
+                        String allPhones = cont.get(5).getText();
                         int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
                         // compare - first and last names only:
-                        ContactData contact = new ContactData().withId(id).withLastName(lastName)
-                                .withFirstName(firstName);
-//                        ContactData contact = new ContactData().withId(id, lastName, firstName, null, null, null, null);
+                        ContactData contact = new ContactData().withId(id)
+                                .withLastName(lastName).withFirstName(firstName)
+                                .withAllPhones(allPhones);
                         contacts.add(contact);
                     }
                 }
@@ -165,4 +120,20 @@ public class ContactHelper extends HelperBase {
         return contacts;
     }
 
+    public ContactData infoFromEditForm(ContactData contact) {
+        initModifyContactById(contact.getId());
+        String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String home = wd.findElement(By.name("home")).getAttribute("value");
+        String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+        String work = wd.findElement(By.name("work")).getAttribute("value");
+        String address = wd.findElement(By.name("address")).getAttribute("value");
+        String email = wd.findElement(By.name("email")).getAttribute("value");
+        String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+        String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+        wd.navigate().back();
+        return new ContactData().withId(contact.getId()).withLastName(lastname).withFirstName(firstname)
+                .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work)
+                .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
+    }
 }
