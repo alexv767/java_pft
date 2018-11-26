@@ -1,0 +1,27 @@
+<list>
+  <group>
+    <lastName>LName-0</lastName>
+    <firstName>FName-0</firstName>
+    <address>Address 0</address>
+  </group>
+  <group>
+    <lastName>LName-1</lastName>
+    <firstName>FName-1</firstName>
+    <address>Address 1</address>
+  </group>
+  <group>
+    <lastName>LName-2</lastName>
+    <firstName>FName-2</firstName>
+    <address>Address 2</address>
+  </group>
+  <group>
+    <lastName>LName-3</lastName>
+    <firstName>FName-3</firstName>
+    <address>Address 3</address>
+  </group>
+  <group>
+    <lastName>LName-4</lastName>
+    <firstName>FName-4</firstName>
+    <address>Address 4</address>
+  </group>
+</list>
