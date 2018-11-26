@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.model;
 
+import java.io.File;
 import java.util.Objects;
 
 public class ContactData {
@@ -16,22 +17,11 @@ public class ContactData {
     private String email3;
     private String allEmails;
     private String group;
+    private File photo;
 
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "id=" + id +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", address='" + address + '\'' +
-                ", homePhone='" + homePhone + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                ", workPhone='" + workPhone + '\'' +
-                ", email='" + email + '\'' +
-                ", email2='" + email2 + '\'' +
-                ", email3='" + email3 + '\'' +
-                ", group='" + group + '\'' +
-                '}';
+    public ContactData withPhoto(File photo) {
+        this.photo = photo;
+        return this;
     }
 
     public ContactData withId(int id) {
@@ -98,6 +88,10 @@ public class ContactData {
         return this;
     }
 
+    public File getPhoto(){
+        return photo;
+    }
+
     public int getId() {
         return id;
     }
@@ -120,21 +114,6 @@ public class ContactData {
 
     public String getMobilePhone() {
         return mobilePhone;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContactData that = (ContactData) o;
-        return id == that.id &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(firstName, that.firstName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, lastName, firstName);
     }
 
     public String getWorkPhone() {
@@ -163,6 +142,38 @@ public class ContactData {
 
     public String getAllEmails() {
         return allEmails;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContactData that = (ContactData) o;
+        return id == that.id &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(firstName, that.firstName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, lastName, firstName);
+    }
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", address='" + address + '\'' +
+                ", homePhone='" + homePhone + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", workPhone='" + workPhone + '\'' +
+                ", email='" + email + '\'' +
+                ", email2='" + email2 + '\'' +
+                ", email3='" + email3 + '\'' +
+                ", group='" + group + '\'' +
+                '}';
     }
 
 }

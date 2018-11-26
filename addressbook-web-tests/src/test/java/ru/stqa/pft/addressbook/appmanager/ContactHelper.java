@@ -20,10 +20,10 @@ public class ContactHelper extends HelperBase {
         this.app = app;
     }
 
-    public void fillContactForm(ContactData contact, boolean newGroup) {
+    public void fillContactForm(ContactData contact, boolean creation) {
 
         if (contact.getGroup() != null) {
-            if (newGroup){
+            if (creation){
                 try {
                     new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
                 } catch (NoSuchElementException ex) {
@@ -43,6 +43,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("address"), contact.getAddress());
         type(By.name("home"), contact.getHomePhone());
         type(By.name("email"), contact.getEmail());
+        attach(By.name("photo"), contact.getPhoto());
     }
 
     public void initCreateContact() {
