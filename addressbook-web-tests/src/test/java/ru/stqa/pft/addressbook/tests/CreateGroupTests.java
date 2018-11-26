@@ -20,13 +20,10 @@ public class CreateGroupTests extends TestBase {
 
     @DataProvider
     public Iterator<Object[]> validGroupsFromXml() throws IOException {
-//        List<Object[]> list = new ArrayList<Object[]>();
         BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")));
         String xml = "";
         String line = reader.readLine();
         while(line != null){
-//            String[] split = line.split(";");
-//            list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
             xml += line;
             line = reader.readLine();
         }
@@ -34,18 +31,14 @@ public class CreateGroupTests extends TestBase {
         xstream.processAnnotations(GroupData.class);
         List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
         return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
-//        return list.iterator();
     }
 
     @DataProvider
     public Iterator<Object[]> validGroupsFromJson() throws IOException {
-//        List<Object[]> list = new ArrayList<Object[]>();
         BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
         String json = "";
         String line = reader.readLine();
         while(line != null){
-//            String[] split = line.split(";");
-//            list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
             json += line;
             line = reader.readLine();
         }
@@ -57,13 +50,11 @@ public class CreateGroupTests extends TestBase {
 
     @Test(dataProvider = "validGroupsFromJson")
     public void testCreateGroup(GroupData group) throws Exception {
-//        GroupData group = new GroupData().withName(name).withHeader(header).withFooter(footer);
         app.goTo().groupPage();
         Groups before = app.group().all();
         app.group().create(group);
         assertThat(app.group().count(), equalTo(before.size() + 1));
         Groups after = app.group().all();
-//        assertThat(after.size(), equalTo(before.size() + 1));
         assertThat(after, equalTo(
                 before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
