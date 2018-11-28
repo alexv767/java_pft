@@ -13,15 +13,5 @@
     "lastName": "LName-2",
     "firstName": "FName-2",
     "address": "Address 2"
-  },
-  {
-    "lastName": "LName-3",
-    "firstName": "FName-3",
-    "address": "Address 3"
-  },
-  {
-    "lastName": "LName-4",
-    "firstName": "FName-4",
-    "address": "Address 4"
   }
 ]
