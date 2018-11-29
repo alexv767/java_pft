@@ -50,21 +50,32 @@ public class CreateContactTests extends TestBase{
     return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "validContactsFromXml", enabled = true)
+  @Test(dataProvider = "validContactsFromJson", enabled = true)
   public void testNewContact(ContactData contact) throws Exception {
-    app.goTo().contactsPage();
-    Contacts before = app.contact().all();
-//    File photo = new File("src/test/resources/bm.png");
+    Contacts before = app.db().contacts();
 
-//    ContactData contact = new ContactData().withLastName("LName1")
-//      .withFirstName("FName1").withAddress("Address1").withHomePhone("8(999)1234567")
-//      .withEmail("email1@mail.q").withPhoto(photo);
+    app.goTo().contactsPage();
     app.contact().create(contact);
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
+
+    System.out.println("----------------------AFTER-----------------------------");
+    for (ContactData c : after) {
+      System.out.println(c);
+    }
+
     assertThat(after.size(), equalTo(before.size() + 1));
+
     assertThat(after, equalTo(
       before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+
+    System.out.println("----------------------BEFORE with added-----------------------------");
+    for (ContactData c : before) {
+      System.out.println(c);
+    }
+
   }
+
+
 
   @Test(enabled = false)
   public void tesCurrentDir(){

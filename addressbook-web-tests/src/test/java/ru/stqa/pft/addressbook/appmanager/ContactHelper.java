@@ -43,7 +43,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("address"), contact.getAddress());
         type(By.name("home"), contact.getHomePhone());
         type(By.name("email"), contact.getEmail());
-        attach(By.name("photo"), contact.getPhoto());
+//        attach(By.name("photo"), contact.getPhoto());
     }
 
     public void initCreateContact() {

@@ -2,16 +2,15 @@
   {
     "lastName": "LName-0",
     "firstName": "FName-0",
-    "address": "Address 0"
+    "address": "Address 0",
+    "company": "Company 0",
+    "role": "Role 0"
   },
   {
     "lastName": "LName-1",
     "firstName": "FName-1",
-    "address": "Address 1"
-  },
-  {
-    "lastName": "LName-2",
-    "firstName": "FName-2",
-    "address": "Address 2"
+    "address": "Address 1",
+    "company": "Company 1",
+    "role": "Role 1"
   }
 ]

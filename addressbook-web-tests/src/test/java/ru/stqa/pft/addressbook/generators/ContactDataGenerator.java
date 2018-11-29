@@ -79,23 +79,21 @@ public class ContactDataGenerator {
 
         try(Writer writer = new FileWriter(file)){
             for(ContactData contact : contacts){
-                writer.write(String.format("%s;%s;%s\n", contact.getLastName(), contact.getFirstName(), contact.getAddress()));
+                writer.write(String.format("%s;%s;%s;%s;%s\n", contact.getLastName(), contact.getFirstName(),
+                        contact.getAddress(), contact.getCompany(), contact.getRole()));
             }
         }
-//        Writer writer = new FileWriter(file);
-//        for(ContactData contact : contacts){
-//            writer.write(String.format("%s;%s;%s\n", contact.getLastName(), contact.getFirstName(), contact.getAddress()));
-//        }
-//        writer.close();
     }
 
     private List<ContactData> generateContacts(int count) {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<ContactData> contacts = new ArrayList <ContactData>();
 
         for(int i = 0; i < count; i++){
             contacts.add(new ContactData().withLastName(String.format("LName-%s", i))
                     .withFirstName(String.format("FName-%s", i))
-                    .withAddress(String.format("Address %s", i)));
+                    .withAddress(String.format("Address %s", i))
+                    .withCompany(String.format("Company %s", i))
+                    .withRole(String.format("Role %s", i)));
         }
         return contacts;
     }
