@@ -17,6 +17,52 @@ public class ContactData {
     @Id
     @Column(name = "id")
     private int id;
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", address='" + address + '\'' +
+                ", homePhone='" + homePhone + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", workPhone='" + workPhone + '\'' +
+                ", email='" + email + '\'' +
+                ", email2='" + email2 + '\'' +
+                ", email3='" + email3 + '\'' +
+                ", group='" + group + '\'' +
+                ", company='" + company + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContactData that = (ContactData) o;
+        return id == that.id &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(homePhone, that.homePhone) &&
+                Objects.equals(mobilePhone, that.mobilePhone) &&
+                Objects.equals(workPhone, that.workPhone) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(email2, that.email2) &&
+                Objects.equals(email3, that.email3) &&
+                Objects.equals(company, that.company) &&
+                Objects.equals(nickname, that.nickname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, lastName, firstName, address, homePhone, mobilePhone, workPhone, allPhones, email, email2, email3, allEmails, group, company);
+    }
+
+    // id, lastname, firstname, address,
     @Expose
     @Column(name = "lastname")
     private String lastName;
@@ -27,23 +73,29 @@ public class ContactData {
     @Column(name = "address")
     @Type(type = "text")
     private String address;
+    @Expose
     @Column(name = "home")
     @Type(type = "text")
     private String homePhone;
+    @Expose
     @Column(name = "mobile")
     @Type(type = "text")
     private String mobilePhone;
+    @Expose
     @Column(name = "work")
     @Type(type = "text")
     private String workPhone;
     @Transient
     private String allPhones;
+    @Expose
     @Column(name = "email")
     @Type(type = "text")
     private String email;
+    @Expose
     @Column(name = "email2")
     @Type(type = "text")
     private String email2;
+    @Expose
     @Column(name = "email3")
     @Type(type = "text")
     private String email3;
@@ -51,18 +103,18 @@ public class ContactData {
     private String allEmails;
     @Transient
     private String group;
-//    @Expose
-//    @Column(name = "company")
+    @Expose
+    @Column(name = "company", columnDefinition = "TEXT")
 //    @Type(type = "text")
     private String company;
-//    @Expose
-//    @Column(name = "role", length = 65535, columnDefinition="TEXT")
+    @Expose
+    @Column(name = "nickname", columnDefinition = "TEXT")
 //    @Type(type = "text")
-    private String role;
+    private String nickname;
 
     @Expose
-    @Column(name = "photo")
-    @Type(type = "text")
+    @Column(name = "photo", columnDefinition = "MEDIUMTEXT")
+//    @Type(type = "text")
     private String photo;
 
 
@@ -81,8 +133,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withRole(String role) {
-        this.role = role;
+    public ContactData withNickname(String nickname) {
+        this.nickname = nickname;
         return this;
     }
 
@@ -165,8 +217,8 @@ public class ContactData {
         return company;
     }
 
-    public String getRole() {
-        return role;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getFirstName() {
@@ -211,38 +263,6 @@ public class ContactData {
 
     public String getAllEmails() {
         return allEmails;
-    }
-
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "id=" + id +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", address='" + address + '\'' +
-                ", group='" + group + '\'' +
-                ", company='" + company + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContactData that = (ContactData) o;
-        return id == that.id &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(firstName, that.firstName) &&
-                Objects.equals(address, that.address) &&
-//                Objects.equals(company, that.company) &&
-//                Objects.equals(role, that.role) &&
-                        Objects.equals(group, that.group);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, lastName, firstName, address, homePhone, mobilePhone, workPhone, allPhones, email, email2, email3, allEmails, group);
     }
 
 

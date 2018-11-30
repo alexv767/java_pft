@@ -59,9 +59,6 @@ public class ContactDataGenerator {
         try(Writer writer = new FileWriter(file)){
             writer.write(json);
         }
-//        Writer writer = new FileWriter(file);
-//        writer.write(json);
-//        writer.close();
     }
 
     private void saveAsXml(List<ContactData> contacts, File file) throws IOException {
@@ -80,7 +77,7 @@ public class ContactDataGenerator {
         try(Writer writer = new FileWriter(file)){
             for(ContactData contact : contacts){
                 writer.write(String.format("%s;%s;%s;%s;%s\n", contact.getLastName(), contact.getFirstName(),
-                        contact.getAddress(), contact.getCompany(), contact.getRole()));
+                        contact.getAddress(), contact.getCompany(), contact.getNickname()));
             }
         }
     }
@@ -93,7 +90,14 @@ public class ContactDataGenerator {
                     .withFirstName(String.format("FName-%s", i))
                     .withAddress(String.format("Address %s", i))
                     .withCompany(String.format("Company %s", i))
-                    .withRole(String.format("Role %s", i)));
+                    .withNickname(String.format("Nickname %s", i))
+                    .withHomePhone(String.format("Homephone-%s", i))
+                    .withMobilePhone(String.format("Mobilephone-%s", i))
+                    .withWorkPhone(String.format("Workphone-%s", i))
+                    .withEmail(String.format("Email-%s", i))
+                    .withEmail2(String.format("Email2-%s", i))
+                    .withEmail3(String.format("Email3-%s", i))
+                    .withPhoto(new File("src/test/resources/bm.png")));
         }
         return contacts;
     }

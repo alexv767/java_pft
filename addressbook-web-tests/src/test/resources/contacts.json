@@ -3,14 +3,28 @@
     "lastName": "LName-0",
     "firstName": "FName-0",
     "address": "Address 0",
+    "homePhone": "Homephone-0",
+    "mobilePhone": "Mobilephone-0",
+    "workPhone": "Workphone-0",
+    "email": "Email-0",
+    "email2": "Email2-0",
+    "email3": "Email3-0",
     "company": "Company 0",
-    "role": "Role 0"
+    "nickname": "Nickname 0",
+    "photo": "src\\test\\resources\\bm.png"
   },
   {
     "lastName": "LName-1",
     "firstName": "FName-1",
     "address": "Address 1",
+    "homePhone": "Homephone-1",
+    "mobilePhone": "Mobilephone-1",
+    "workPhone": "Workphone-1",
+    "email": "Email-1",
+    "email2": "Email2-1",
+    "email3": "Email3-1",
     "company": "Company 1",
-    "role": "Role 1"
+    "nickname": "Nickname 1",
+    "photo": "src\\test\\resources\\bm.png"
   }
 ]

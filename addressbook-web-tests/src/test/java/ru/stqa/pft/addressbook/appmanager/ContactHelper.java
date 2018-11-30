@@ -42,8 +42,14 @@ public class ContactHelper extends HelperBase {
         type(By.name("lastname"), contact.getLastName());
         type(By.name("address"), contact.getAddress());
         type(By.name("home"), contact.getHomePhone());
+        type(By.name("mobile"), contact.getMobilePhone());
+        type(By.name("work"), contact.getWorkPhone());
         type(By.name("email"), contact.getEmail());
-//        attach(By.name("photo"), contact.getPhoto());
+        type(By.name("email2"), contact.getEmail2());
+        type(By.name("email3"), contact.getEmail3());
+        type(By.name("company"), contact.getCompany());
+        type(By.name("nickname"), contact.getNickname());
+        attach(By.name("photo"), contact.getPhoto());
     }
 
     public void initCreateContact() {
