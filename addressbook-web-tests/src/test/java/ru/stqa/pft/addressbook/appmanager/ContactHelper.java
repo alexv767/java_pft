@@ -8,8 +8,11 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
+import java.util.Random;
 
 public class ContactHelper extends HelperBase {
     ApplicationManager app;
@@ -21,11 +24,13 @@ public class ContactHelper extends HelperBase {
     }
 
     public void fillContactForm(ContactData contact, boolean creation) {
-
-        if (contact.getGroup() != null) {
+        Groups groups = null;
+        groups = contact.getGroups();
+        if (groups.size() > 0 ) {
             if (creation){
                 try {
-                    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroup());
+                    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contact.getGroups()
+                            .iterator().next().getName());
                 } catch (NoSuchElementException ex) {
                     ;
 //                    app.goTo().groupPage();
@@ -98,6 +103,87 @@ public class ContactHelper extends HelperBase {
         app.goTo().contactsPage();
     }
 
+    public void linkToGroup(ContactData contact, GroupData group) {
+        app.goTo().contactsPage();
+        selectContactById(contact.getId());
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+
+//        wd.findElement(By.name("to_group")).click();
+        wd.findElement(By.name("add")).click();
+        wd.findElements(By.cssSelector("div.msgbox")); // wait for message
+        app.goTo().contactsPage();
+    }
+
+    public void newGroupToLink() {
+        app.goTo().groupPage();     // ... one more new Group is needed for linking :
+
+        Random rnd = new Random(System.currentTimeMillis()); // init Random
+        int number = 1 + rnd.nextInt(1000000); // random number
+
+        String newUniqueGroupName = "NewUniqueGroupName_" + Integer.toString(number);  // unique name for new group
+        GroupData newGroup = new GroupData().withName(newUniqueGroupName);
+        app.group().create(newGroup);
+    }
+
+    public GroupData getGroupToLink(Groups groups, Groups linkedGroupsBefore) {
+        int id, counter, linkedCount = linkedGroupsBefore.size();
+        GroupData groupToLink = null;
+
+        for(GroupData group : groups) {  // find "free" group for linking
+            id = group.getId();  // current group id
+            counter = 0;
+            for (GroupData linkedGroup : linkedGroupsBefore)
+                if (id != linkedGroup.getId())
+                    counter++;
+            groupToLink = group;
+            if (counter == linkedCount)    // group is absent (in linked groups)
+                break;
+        }
+        return groupToLink;
+    }
+
+    public ContactData getContactToUnlink(Contacts contacts) {
+        ContactData unlinkedContact =  null;
+
+        for(ContactData contact : contacts) {  // find "free" group for linking
+            if(contact.getGroups().size() > 0){
+                unlinkedContact = contact;
+                break;
+            }
+        }
+        return unlinkedContact;
+    }
+
+    public ContactData getContactById(Contacts contacts, int id) {
+        ContactData unlinkedContact =  null;
+
+        for(ContactData contact : contacts) {  // find "free" group for linking
+            if(contact.getId() == id){
+                unlinkedContact = contact;
+                break;
+            }
+        }
+        return unlinkedContact;
+    }
+
+    public GroupData unlinkContact(ContactData contact) {
+        Groups linkedGroups = contact.getGroups();
+        GroupData group = linkedGroups.iterator().next();
+
+        app.goTo().contactsPage();
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
+        wd.findElement(By.name("group")).click();
+        selectContactById(contact.getId());
+
+        wd.findElement(By.name("remove")).click();
+        wd.findElements(By.cssSelector("div.msgbox")); // wait for message
+        app.goTo().contactsPage();
+
+        return group;
+    }
+
+
+
     public void selectContactById(int id) {
             wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
@@ -147,4 +233,5 @@ public class ContactHelper extends HelperBase {
                 .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work)
                 .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
     }
+
 }

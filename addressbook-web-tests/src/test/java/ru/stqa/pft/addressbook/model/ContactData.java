@@ -7,9 +7,11 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-@XStreamAlias("group")
+@XStreamAlias("contact")
 @Entity
 @Table(name = "addressbook")
 public class ContactData {
@@ -31,7 +33,7 @@ public class ContactData {
                 ", email='" + email + '\'' +
                 ", email2='" + email2 + '\'' +
                 ", email3='" + email3 + '\'' +
-                ", group='" + group + '\'' +
+//                ", group='" + group + '\'' +
                 ", company='" + company + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", photo='" + photo + '\'' +
@@ -57,9 +59,10 @@ public class ContactData {
                 Objects.equals(nickname, that.nickname);
     }
 
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, lastName, firstName, address, homePhone, mobilePhone, workPhone, allPhones, email, email2, email3, allEmails, group, company);
+        return Objects.hash(id, lastName, firstName, address, homePhone, mobilePhone, workPhone, allPhones, email, email2, email3, allEmails, company);
     }
 
     // id, lastname, firstname, address,
@@ -101,8 +104,16 @@ public class ContactData {
     private String email3;
     @Transient
     private String allEmails;
-    @Transient
-    private String group;
+//    @Transient
+//    private String group;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+//    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "address_in_groups",
+        joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
+
+
     @Expose
     @Column(name = "company", columnDefinition = "TEXT")
 //    @Type(type = "text")
@@ -194,11 +205,14 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
-        return this;
-    }
+//    public ContactData withGroup(String group) {
+//        this.group = group;
+//        return this;
+//    }
 
+    public Groups getGroups() {
+        return new Groups(groups);
+    }
 
 
     public File getPhoto(){
@@ -257,9 +271,9 @@ public class ContactData {
         return email3;
     }
 
-    public String getGroup() {
-        return group;
-    }
+//    public String getGroup() {
+//        return group;
+//    }
 
     public String getAllEmails() {
         return allEmails;
