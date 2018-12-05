@@ -14,10 +14,11 @@ import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
     private final Properties properties;
-    WebDriver wd;
+    private WebDriver wd;
     public WebDriverWait wait;
 
     private String browser;
+    private RegistrationHelper registrationHelper;
 
     public ApplicationManager(String browser) {
         properties = new Properties();
@@ -27,23 +28,13 @@ public class ApplicationManager {
     public void init() throws IOException {
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
-
-        if(browser.equals(BrowserType.FIREFOX)){
-            wd = new FirefoxDriver();
-        } else if(browser.equals(BrowserType.CHROME)){
-            wd = new ChromeDriver();
-        }
-
-        wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(wd, 10);
-        wd.get(properties.getProperty("web.baseURL"));
-
     }
 
     public void stop() {
-        wd.quit();
+        if(wd != null) {
+            wd.quit();
+        }
     }
-
 
     public String getProperty(String key) {
         return properties.getProperty(key);
@@ -51,6 +42,27 @@ public class ApplicationManager {
 
     public HttpSession newSession(){
         return new HttpSession(this);
+    }
+
+    public RegistrationHelper registration () {
+        if (registrationHelper == null) {
+            registrationHelper = new RegistrationHelper(this);
+        }
+        return registrationHelper;
+    }
+
+    public WebDriver getDriver() {
+        if (wd == null) {
+            if(browser.equals(BrowserType.FIREFOX)){
+                wd = new FirefoxDriver();
+            } else if(browser.equals(BrowserType.CHROME)){
+                wd = new ChromeDriver();
+            }
+            wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            wait = new WebDriverWait(wd, 10);
+            wd.get(properties.getProperty("web.baseURL"));
+        }
+        return wd;
     }
 
 }
