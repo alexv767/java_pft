@@ -16,13 +16,20 @@ public class ApplicationManager {
     private final Properties properties;
     private WebDriver wd;
     public WebDriverWait wait;
-
     private String browser;
     private RegistrationHelper registrationHelper;
+    private FtpHelper ftp = null;
 
     public ApplicationManager(String browser) {
         properties = new Properties();
         this.browser = browser;
+    }
+
+    public FtpHelper ftp() {
+        if(ftp == null) {
+            ftp = new FtpHelper(this);
+        }
+        return  ftp;
     }
 
     public void init() throws IOException {
