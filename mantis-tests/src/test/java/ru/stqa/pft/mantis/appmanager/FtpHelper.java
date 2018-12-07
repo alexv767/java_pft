@@ -18,7 +18,6 @@ public class FtpHelper {
         ftp.connect(app.getProperty("ftp.host"));
         ftp.login(app.getProperty("ftp.login"), app.getProperty("ftp.password"));
         ftp.deleteFile(backup);
-//        ftp.rename("test777777.txt", "test888888.txt");
         ftp.rename(target, backup);
         ftp.enterLocalPassiveMode();
         ftp.storeFile(target, new FileInputStream(file));
