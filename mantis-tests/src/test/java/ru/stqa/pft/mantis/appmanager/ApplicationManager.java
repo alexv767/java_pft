@@ -19,6 +19,7 @@ public class ApplicationManager {
     private String browser;
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp = null;
+    private MailHelper mailHelper = null;
 
     public ApplicationManager(String browser) {
         properties = new Properties();
@@ -31,6 +32,14 @@ public class ApplicationManager {
         }
         return  ftp;
     }
+
+    public MailHelper mail() {
+        if(mailHelper == null) {
+            mailHelper = new MailHelper(this);
+        }
+        return  mailHelper;
+    }
+
 
     public void init() throws IOException {
         String target = System.getProperty("target", "local");
