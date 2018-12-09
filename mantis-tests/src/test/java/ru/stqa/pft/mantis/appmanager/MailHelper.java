@@ -34,6 +34,27 @@ public class MailHelper {
         throw new Error("No mail :( ...");
     }
 
+    public MailMessage waitForMailForPassword(int count, long timeout, String user) throws MessagingException, IOException {
+        long start = System.currentTimeMillis();  // "requested a password change"  phrase in email body
+
+        while (System.currentTimeMillis() < start + timeout){
+            if (wiser.getMessages().size() >= count){
+                List<MailMessage> mails = wiser.getMessages().stream().map((m) -> toModelMail(m)).collect(Collectors.toList());
+                for (MailMessage mp : mails) {
+                    if (mp.text.contains("requested a password change") && mp.to.contains(user))
+                        return mp;
+                }
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        throw new Error("No mail :( ...");
+    }
+
+
     public static MailMessage toModelMail(WiserMessage m) {
         try {
             MimeMessage mm = m.getMimeMessage();

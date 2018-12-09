@@ -11,18 +11,18 @@ public class TestBase {
 
     public static final ApplicationManager app =
 //            new ApplicationManager(BrowserType.FIREFOX);
-//            new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
-            new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
+            new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
+//            new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
 
     @BeforeSuite
     public void setUp() throws Exception {
         app.init();
-        app.ftp().upload(new File("src/test/resources/config_inc.php"), "config_inc.php", "config_inc.php.bak");
+//        app.ftp().upload(new File("src/test/resources/config_inc.php"), "config_inc.php", "config_inc.php.bak");
     }
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() throws Exception {
-        app.ftp().restore("config_inc.php.bak", "config_inc.php");
+//        app.ftp().restore("config_inc.php.bak", "config_inc.php");
         app.stop();
     }
 
