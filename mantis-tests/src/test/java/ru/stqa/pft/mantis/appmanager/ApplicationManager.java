@@ -20,6 +20,7 @@ public class ApplicationManager {
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp = null;
     private MailHelper mailHelper = null;
+    private SoapHelper soapHelper;
 
     public ApplicationManager(String browser) {
         properties = new Properties();
@@ -38,6 +39,13 @@ public class ApplicationManager {
             mailHelper = new MailHelper(this);
         }
         return  mailHelper;
+    }
+
+    public SoapHelper soap() {
+        if(soapHelper == null) {
+            soapHelper = new SoapHelper(this);
+        }
+        return  soapHelper;
     }
 
 
