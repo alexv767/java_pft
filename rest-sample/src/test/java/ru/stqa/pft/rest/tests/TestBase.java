@@ -23,14 +23,14 @@ public class TestBase {
 
     private boolean isIssueOpen(int id) throws IOException {
         int state = getIssue(id).iterator().next().getState();
-        System.out.println(String.format("state= %d", state));
-        if ( ! (state == 0 || state == 4 || state == 1) ) // open, reopen, in progress
+        System.out.println(String.format("state = %d", state));
+        if ( (state == 0 || state == 4 || state == 1) ) // open, reopen, in progress
             return true;
         else
             return false;
     }
 
-    public Set<Issue> getIssue(int id) throws IOException {
+    public Set<Issue> getIssue(int id) throws IOException {  // Set with the only 1 Issue !
         String json = getExecutor().execute(Request.Get(String.format("http://bugify.stqa.ru/api/issues/%d.json", id)))
                 .returnContent().asString();
         JsonElement parsed = new JsonParser().parse(json);

@@ -19,9 +19,7 @@ public class CheckStateTest extends TestBase {
     @Test(alwaysRun = true)
     public void testCheckState() throws IOException {
 
-            int id = 556;
-
-            Set<Issue> issue = getIssue(id);
+            int id = 563;
 
             try {
                 skipIfNotFixed(id);
