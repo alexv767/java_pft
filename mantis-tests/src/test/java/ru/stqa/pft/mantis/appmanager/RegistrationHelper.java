@@ -47,7 +47,7 @@ public class RegistrationHelper extends HelperBase{
         // and now - wait for email ...
     }
 
-    public void submitChangePassword(String confirmationLink, String user, String password1, String password2) {
+    public void submitChangePassword(String confirmationLink, String password2) {
         wd.get(confirmationLink);
 //        type(By.name("realname"), user);
         type(By.name("password"), password2);
