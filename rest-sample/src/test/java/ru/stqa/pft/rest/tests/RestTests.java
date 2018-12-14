@@ -17,7 +17,7 @@ import static org.testng.Assert.assertEquals;
 
     public class RestTests {
 
-    @Test(alwaysRun = true)
+    @Test(enabled = false)
     public void testCreateIssue() throws IOException {
         Set<Issue> oldIssues = getIssues();
         Issue newIssue = new Issue()

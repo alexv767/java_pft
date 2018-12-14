@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class CheckStateTest extends TestBase {
 
-    @Test(alwaysRun = true)
+    @Test(enabled = false)
     public void testCheckState() throws IOException {
 
             int id = 563;

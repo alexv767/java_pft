@@ -50,7 +50,7 @@ public class CreateContactTests extends TestBase{
     return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "validContactsFromJson", enabled = true)
+  @Test(dataProvider = "validContactsFromJson", enabled = false)
   public void testNewContact(ContactData contact) throws Exception {
     Contacts before = app.db().contacts();
 

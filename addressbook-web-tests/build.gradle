@@ -45,5 +45,4 @@ task testContacts(type: Test){
     if (project.hasProperty('verifyUI')){
         systemProperty 'verifyUI', "${verifyUI}"
     }
-
 }

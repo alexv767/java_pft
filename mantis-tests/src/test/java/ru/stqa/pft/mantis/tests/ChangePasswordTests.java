@@ -44,7 +44,7 @@ public class ChangePasswordTests extends TestBase {
         userForTest = getUserForTest(); // get any user for test
     }
 
-    @Test
+    @Test(enabled = false)
     public void testChangePassword () throws IOException, MessagingException {
         app.registration().initChangePassword(userForTest.getName(), userForTest.getEmail());     //   UI - "Reset password"
 

@@ -8,7 +8,7 @@ import static org.testng.Assert.assertEquals;
 
 public class GeoIpServiceTests {
 
-    @Test
+    @Test(enabled = false)
     public void testMyIp() {
 //        GeoIP geoIp = new GeoIPService().getGeoIPServiceSoap12().getGeoIP();
         GeoIP geoIp = new GeoIPService().getGeoIPServiceSoap12().getGeoIP("109.252.26.16");

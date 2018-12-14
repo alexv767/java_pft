@@ -22,7 +22,7 @@ public class ContactAddressNEmailTests extends TestBase{
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void testContactAddressNEmails (){
         app.goTo().contactsPage();
         ContactData contact = app.contact().all().iterator().next();

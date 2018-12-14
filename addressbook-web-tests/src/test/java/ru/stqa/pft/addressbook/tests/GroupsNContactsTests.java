@@ -40,7 +40,7 @@ public class GroupsNContactsTests extends TestBase {
 
     }
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testContactAddToGroup (){
         Contacts contacts = app.db().contacts();        // all contacts
         ContactData linkedContact =  contacts.iterator().next();   // get contact for test and call it "linkedContact"

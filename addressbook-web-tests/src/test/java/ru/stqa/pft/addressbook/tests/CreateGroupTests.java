@@ -48,7 +48,7 @@ public class CreateGroupTests extends TestBase {
 //        return list.iterator();
     }
 
-    @Test(dataProvider = "validGroupsFromJson")
+    @Test(dataProvider = "validGroupsFromJson", enabled = false)
     public void testCreateGroup(GroupData group) throws Exception {
         Groups before = app.db().groups();
 
