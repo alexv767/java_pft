@@ -20,7 +20,7 @@ public class ModifyContactTests extends TestBase{
         }
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testModifyContact (){
         Contacts before = app.db().contacts();
         ContactData modifiedContact =  before.iterator().next();

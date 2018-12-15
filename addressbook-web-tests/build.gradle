@@ -1,6 +1,4 @@
 apply plugin: 'java'
-//apply plugin: 'application'
-//mainClassName = "ru.stqa.pft.addressbook.ModifyGroupTests"
 
 repositories {
     mavenCentral()
@@ -19,9 +17,7 @@ dependencies {
 }
 
 test {
-    useTestNG{
-        suites 'src/test/resources/testng-groups.xml'
-    }
+    useTestNG()
 }
 
 //task testGroups(type: Test){
