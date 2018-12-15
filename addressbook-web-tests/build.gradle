@@ -19,7 +19,9 @@ dependencies {
 }
 
 test {
-    useTestNG()
+    useTestNG{
+        suites 'src/test/resources/testng-groups.xml'
+    }
 }
 
 //task testGroups(type: Test){
