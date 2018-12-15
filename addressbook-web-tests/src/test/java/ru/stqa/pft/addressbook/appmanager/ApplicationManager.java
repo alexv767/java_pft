@@ -37,12 +37,17 @@ public class ApplicationManager {
 
         dbHelper = new DbHelper();
 
-        if(browser.equals(BrowserType.FIREFOX)){
-            wd = new FirefoxDriver();
-        } else if(browser.equals(BrowserType.CHROME)){
-            wd = new ChromeDriver();
-        }
-
+		if("".equals(properties.getProperty("selenium.server"))) {
+			if(browser.equals(BrowserType.FIREFOX)){
+				wd = new FirefoxDriver();
+			} else if(browser.equals(BrowserType.CHROME)){
+				wd = new ChromeDriver();
+			}
+		} else {
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setBrowserName(browser);
+			wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
+		}
         wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(wd, 10);
         wd.get(properties.getProperty("web.baseURL"));  // "http://localhost/addressbook/"
