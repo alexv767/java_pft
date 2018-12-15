@@ -61,7 +61,7 @@ public class GroupsNContactsTests extends TestBase {
         assertThat(linkedGroupsAfter, equalTo(linkedGroupsBefore.withAdded(groupToLink)));
     }
 
-    @Test(enabled = true)      // run after "testContactAddToGroup" as preconditions guarantee
+    @Test(enabled = false)      // run after "testContactAddToGroup" as preconditions guarantee
     public void testContactRemoveFromGroup (){
         Contacts contacts = app.db().contacts();        // get all contacts from db
 
